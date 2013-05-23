@@ -8,3 +8,10 @@ You can view Python code (right) in a tree style viewer (left):
    :target: http://www.flickr.com/photos/arataka/8804246558/
 
 TODO: make it installable via el-get and MELPA.
+
+
+Requirements
+============
+
+- `jedi.el <http://tkf.github.io/emacs-jedi/>`_
+- `direx.el <https://github.com/m2ym/direx-el>`_
