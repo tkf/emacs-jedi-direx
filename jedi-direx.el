@@ -69,6 +69,12 @@
 (defmethod direx:make-item ((tree jedi-direx:object) parent)
   (make-instance 'jedi-direx:item :tree tree :parent parent))
 
+(defmethod direx:make-item ((tree jedi-direx:class) parent)
+  (let ((item (call-next-method)))
+    ;; FIXME: use appropriate face.
+    (oset item :face 'dired-directory)
+    item))
+
 (defun direx-jedi:-goto-item (item)
   (destructuring-bind (&key line_nr column &allow-other-keys)
       (car (oref (direx:item-tree item) :cache))
