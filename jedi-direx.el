@@ -106,7 +106,7 @@
            (root (direx:item-root item))
            (module (direx:item-tree root)))
       (if (with-current-buffer (oref module :buffer)
-            (unless (eq (oref module :cache) jedi:defined-names--cache)
+            (unless (eq (cdr (oref module :cache)) jedi:defined-names--cache)
               (oset module :cache jedi:defined-names--cache)))
           (message "No need to refresh")
         (call-next-method root :recursive t)))))
@@ -120,7 +120,7 @@
                   :name (format "*direx-jedi: %s*" (buffer-name))
                   :buffer (current-buffer)
                   :file-name (buffer-file-name)
-                  :cache jedi:defined-names--cache)))
+                  :cache (cons nil jedi:defined-names--cache))))
 
 ;;;###autoload
 (defun jedi-direx:pop-to-buffer ()
