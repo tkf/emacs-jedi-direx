@@ -1,8 +1,10 @@
-;;; jedi-direx.el --- Tree style viewer for Python buffers
+;;; jedi-direx.el --- Tree style source code viewer for Python buffer
 
 ;; Copyright (C) 2013 Takafumi Arakaki
 
 ;; Author: Takafumi Arakaki <aka.tkf at gmail.com>
+;; Package-Requires: ((jedi "0.1.2"))
+;; Version: 0.0.1alpha0
 
 ;; This file is NOT part of GNU Emacs.
 
