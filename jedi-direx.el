@@ -59,6 +59,37 @@
        (equal (direx:tree-name x)
               (direx:tree-name y))))
 
+
+;;; View
+
+(defclass jedi-direx:item (direx:item) ())
+
+(defmethod direx:make-item ((tree jedi-direx:object) parent)
+  (make-instance 'jedi-direx:item :tree tree :parent parent))
+
+(defun direx-jedi:-goto-item (item)
+  (destructuring-bind (&key line_nr column &allow-other-keys)
+      (car (oref (direx:item-tree item) :cache))
+    (jedi:goto--line-column line_nr column)))
+
+(defmethod direx:generic-find-item ((item jedi-direx:item)
+                                    not-this-window)
+  (let* ((root (direx:item-root item))
+         (filename (direx:file-full-name (direx:item-tree root))))
+    (if not-this-window
+        (find-file-other-window filename)
+      (find-file filename))
+    (direx-jedi:-goto-item item)))
+
+(defmethod direx:generic-display-item ((item jedi-direx:item))
+  (let* ((root (direx:item-root item))
+         (filename (direx:file-full-name (direx:item-tree root))))
+    (with-selected-window (display-buffer (find-file-noselect filename))
+      (direx-jedi:-goto-item item))))
+
+
+;;; Command
+
 (defun jedi-direx:make-buffer ()
   (direx:ensure-buffer-for-root
    (make-instance 'jedi-direx:module
