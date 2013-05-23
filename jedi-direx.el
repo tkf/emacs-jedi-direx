@@ -96,6 +96,21 @@
     (with-selected-window (display-buffer (find-file-noselect filename))
       (direx-jedi:-goto-item item))))
 
+(defvar jedi-direx:item-refresh--recurring nil)
+
+(defmethod direx:item-refresh ((item jedi-direx:item) &key recursive)
+  "Currently it always recursively refreshes whole tree."
+  (if jedi-direx:item-refresh--recurring
+      (call-next-method)
+    (let* ((jedi-direx:item-refresh--recurring t)
+           (root (direx:item-root item))
+           (module (direx:item-tree root)))
+      (if (with-current-buffer (oref module :buffer)
+            (unless (eq (oref module :cache) jedi:defined-names--cache)
+              (oset module :cache jedi:defined-names--cache)))
+          (message "No need to refresh")
+        (call-next-method root :recursive t)))))
+
 
 ;;; Command
 
