@@ -108,8 +108,8 @@
       (if (with-current-buffer (oref module :buffer)
             (unless (eq (cdr (oref module :cache)) jedi:defined-names--cache)
               (oset module :cache (cons nil jedi:defined-names--cache))))
-          (message "No need to refresh")
-        (call-next-method root :recursive t)))))
+          (call-next-method root :recursive t)
+        (message "No need to refresh")))))
 
 
 ;;; Command
