@@ -10,6 +10,13 @@ You can view Python code (right) in a tree style viewer (left):
 TODO: make it installable via el-get and MELPA.
 
 
+Setup
+=====
+Example::
+
+  (define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer)
+
+
 Requirements
 ============
 
