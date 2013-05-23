@@ -3,7 +3,7 @@
 ;; Copyright (C) 2013 Takafumi Arakaki
 
 ;; Author: Takafumi Arakaki <aka.tkf at gmail.com>
-;; Package-Requires: ((jedi "0.1.2"))
+;; Package-Requires: ((jedi "0.1.2") (direx "0.1alpha"))
 ;; Version: 0.0.1alpha0
 
 ;; This file is NOT part of GNU Emacs.
