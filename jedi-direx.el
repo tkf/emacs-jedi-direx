@@ -57,11 +57,6 @@
 (defmethod direx:node-children ((node jedi-direx:object))
   (mapcar 'jedi-direx:node-from-cache (cdr (oref node :cache))))
 
-(defmethod direx:tree-equals ((x jedi-direx:object) y)
-  (and (typep y 'jedi-direx:object)
-       (equal (direx:tree-name x)
-              (direx:tree-name y))))
-
 
 ;;; View
 
