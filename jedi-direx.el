@@ -107,7 +107,7 @@
            (module (direx:item-tree root)))
       (if (with-current-buffer (oref module :buffer)
             (unless (eq (cdr (oref module :cache)) jedi:defined-names--cache)
-              (oset module :cache jedi:defined-names--cache)))
+              (oset module :cache (cons nil jedi:defined-names--cache))))
           (message "No need to refresh")
         (call-next-method root :recursive t)))))
 
