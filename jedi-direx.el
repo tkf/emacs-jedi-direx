@@ -99,10 +99,12 @@
                   :file-name (buffer-file-name)
                   :cache jedi:defined-names--cache)))
 
+;;;###autoload
 (defun jedi-direx:pop-to-buffer ()
   (interactive)
   (pop-to-buffer (jedi-direx:make-buffer)))
 
+;;;###autoload
 (defun jedi-direx:switch-to-buffer ()
   (interactive)
   (switch-to-buffer (jedi-direx:make-buffer)))
