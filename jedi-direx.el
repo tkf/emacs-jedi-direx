@@ -35,7 +35,8 @@
 (defclass jedi-direx:object (direx:tree)
   ((cache :initarg :cache :document "Subtree of `jedi:defined-names--cache'")))
 (defclass jedi-direx:module (jedi-direx:object direx:node)
-  ((file-name :initarg :file-name
+  ((buffer :initarg :buffer)
+   (file-name :initarg :file-name
               :accessor direx:file-full-name)))
 (defclass jedi-direx:class (jedi-direx:object direx:node) ())
 (defclass jedi-direx:method (jedi-direx:object direx:leaf) ())
@@ -102,6 +103,7 @@
   (direx:ensure-buffer-for-root
    (make-instance 'jedi-direx:module
                   :name (format "*direx-jedi: %s*" (buffer-name))
+                  :buffer (current-buffer)
                   :file-name (buffer-file-name)
                   :cache jedi:defined-names--cache)))
 
