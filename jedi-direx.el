@@ -32,6 +32,14 @@
 (require 'direx)
 
 
+(defgroup jedi-direx nil
+  "Tree style source code viewer for Python."
+  :group 'programming
+  :prefix "jedi-direx")
+
+
+;;; Core
+
 (defclass jedi-direx:object (direx:tree)
   ((cache :initarg :cache :document "Subtree of `jedi:defined-names--cache'")))
 (defclass jedi-direx:module (jedi-direx:object direx:node)
@@ -58,6 +66,18 @@
   (mapcar 'jedi-direx:node-from-cache (cdr (oref node :cache))))
 
 
+;;; Face
+(defface jedi-direx:class
+  '((t :inherit font-lock-type-face))
+  "Face for class name in direx tree"
+  :group 'jedi-direx)
+
+(defface jedi-direx:method
+  '((t :inherit font-lock-function-name-face))
+  "Face for method name in direx tree"
+  :group 'jedi-direx)
+
+
 ;;; View
 
 (defclass jedi-direx:item (direx:item) ())
@@ -65,10 +85,14 @@
 (defmethod direx:make-item ((tree jedi-direx:object) parent)
   (make-instance 'jedi-direx:item :tree tree :parent parent))
 
+(defmethod direx:make-item ((tree jedi-direx:method) parent)
+  (let ((item (call-next-method)))
+    (oset item :face 'jedi-direx:method)
+    item))
+
 (defmethod direx:make-item ((tree jedi-direx:class) parent)
   (let ((item (call-next-method)))
-    ;; FIXME: use appropriate face.
-    (oset item :face 'dired-directory)
+    (oset item :face 'jedi-direx:class)
     item))
 
 (defun direx-jedi:-goto-item (item)
