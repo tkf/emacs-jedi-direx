@@ -57,11 +57,6 @@
 (defmethod direx:node-children ((node jedi-direx:object))
   (mapcar 'jedi-direx:node-from-cache (cdr (oref node :cache))))
 
-(defmethod direx:tree-equals ((x jedi-direx:object) y)
-  (and (typep y 'jedi-direx:object)
-       (equal (direx:tree-name x)
-              (direx:tree-name y))))
-
 
 ;;; View
 
@@ -96,6 +91,21 @@
     (with-selected-window (display-buffer (find-file-noselect filename))
       (direx-jedi:-goto-item item))))
 
+(defvar jedi-direx:item-refresh--recurring nil)
+
+(defmethod direx:item-refresh ((item jedi-direx:item) &key recursive)
+  "Currently it always recursively refreshes whole tree."
+  (if jedi-direx:item-refresh--recurring
+      (call-next-method)
+    (let* ((jedi-direx:item-refresh--recurring t)
+           (root (direx:item-root item))
+           (module (direx:item-tree root)))
+      (if (with-current-buffer (oref module :buffer)
+            (unless (eq (cdr (oref module :cache)) jedi:defined-names--cache)
+              (oset module :cache (cons nil jedi:defined-names--cache))))
+          (call-next-method root :recursive t)
+        (message "No need to refresh")))))
+
 
 ;;; Command
 
@@ -105,7 +115,7 @@
                   :name (format "*direx-jedi: %s*" (buffer-name))
                   :buffer (current-buffer)
                   :file-name (buffer-file-name)
-                  :cache jedi:defined-names--cache)))
+                  :cache (cons nil jedi:defined-names--cache))))
 
 ;;;###autoload
 (defun jedi-direx:pop-to-buffer ()
