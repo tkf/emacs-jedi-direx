@@ -12,9 +12,10 @@ TODO: make it installable via el-get and MELPA.
 
 Setup
 =====
-Example::
+Example to open the viewer by `C-c x` in Python buffer::
 
-  (define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer)
+  (eval-after-load "python"
+    '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
 
 Requirements
