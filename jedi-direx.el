@@ -134,12 +134,13 @@
 ;;; Command
 
 (defun jedi-direx:make-buffer ()
+  (setq jedi:defined-names--cache 'nil)
   (direx:ensure-buffer-for-root
    (make-instance 'jedi-direx:module
                   :name (format "*direx-jedi: %s*" (buffer-name))
                   :buffer (current-buffer)
                   :file-name (buffer-file-name)
-                  :cache (cons nil jedi:defined-names--cache))))
+                  :cache (cons nil (jedi:defined-names--sync)))))
 
 ;;;###autoload
 (defun jedi-direx:pop-to-buffer ()
