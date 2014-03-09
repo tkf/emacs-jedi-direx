@@ -37,6 +37,11 @@
   :group 'programming
   :prefix "jedi-direx")
 
+(defcustom jedi-direx:hide-imports nil
+  "If non-nil, imports will not be shown in the tree."
+  :type 'boolean
+  :group 'jedi-direx)
+
 
 ;;; Core
 
@@ -58,12 +63,15 @@
   (let* ((type (plist-get (car cache) :type))
          (class (or (assoc-default type jedi-direx:type-class-map)
                     'jedi-direx:variable)))
-    (make-instance class
-                   :cache cache
-                   :name (plist-get (car cache) :name))))
+    (unless (and jedi-direx:hide-imports
+                 (stringp type) (string= type "import"))
+      (make-instance class
+                     :cache cache
+                     :name (plist-get (car cache) :name)))))
 
 (defmethod direx:node-children ((node jedi-direx:object))
-  (mapcar 'jedi-direx:node-from-cache (cdr (oref node :cache))))
+  (delq nil
+        (mapcar 'jedi-direx:node-from-cache (cdr (oref node :cache)))))
 
 
 ;;; Face
