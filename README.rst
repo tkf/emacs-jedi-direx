@@ -22,5 +22,5 @@ Example to open the viewer by `C-c x` in Python buffer::
 Requirements
 ============
 
-- `jedi.el <http://tkf.github.io/emacs-jedi/>`_
+- `jedi.el <http://tkf.github.io/emacs-jedi/>`_ (``jedi:install-imenu`` should be non-nil)
 - `direx.el <https://github.com/m2ym/direx-el>`_
