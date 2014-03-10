@@ -63,15 +63,25 @@
   (let* ((type (plist-get (car cache) :type))
          (class (or (assoc-default type jedi-direx:type-class-map)
                     'jedi-direx:variable)))
-    (unless (and jedi-direx:hide-imports
-                 (stringp type) (string= type "import"))
-      (make-instance class
-                     :cache cache
-                     :name (plist-get (car cache) :name)))))
+    (make-instance class
+                   :cache cache
+                   :name (plist-get (car cache) :name))))
+
+(defun jedi-direx:-filter-cache (items)
+  "Filter out cache items according to configuration."
+  (delq nil
+        (mapcar
+         (lambda (item)
+           (let ((item-type (plist-get (car item) :item-type)))
+             (unless (and jedi-direx:hide-imports
+                          (stringp item-type) (string= item-type "import"))
+               item)))
+         items)))
+
 
 (defmethod direx:node-children ((node jedi-direx:object))
-  (delq nil
-        (mapcar 'jedi-direx:node-from-cache (cdr (oref node :cache)))))
+  (mapcar 'jedi-direx:node-from-cache
+          (jedi-direx:-filter-cache (cdr (oref node :cache)))))
 
 
 ;;; Face
