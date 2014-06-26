@@ -72,7 +72,7 @@
   (delq nil
         (mapcar
          (lambda (item)
-           (let ((item-type (plist-get (car item) :item-type)))
+           (let ((item-type (plist-get (car item) :type)))
              (unless (and jedi-direx:hide-imports
                           (stringp item-type) (string= item-type "import"))
                item)))
