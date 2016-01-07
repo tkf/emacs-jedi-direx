@@ -28,7 +28,7 @@
 
 ;;; Code:
 
-(require 'jedi)
+(require 'jedi-core)
 (require 'direx)
 
 
